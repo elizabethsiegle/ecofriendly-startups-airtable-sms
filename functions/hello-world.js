@@ -12,14 +12,15 @@ exports.handler = function (context, event, callback) {
  .all()
  .then((records) => {
    records.forEach((record) => {
-     if (category == record.get("category")) { //inbMsg i is in 
+     //if (category == record.get("category")) { //inbMsg i is in
+     if (category.includes(String(record.get("category")))) { 
        randArr.push(record);
       } //if
     }); //records.forEach
     if(randArr.length > 0) {
       let randNum = Math.random()*randArr.length;
-      randRecord = randArr[Math.floor(Math.random()*randArr.length)];
-      twiml.message(`A random org tackling ${category} is ${randRecord.get("org")}: ${randRecord.get("overview")} More at ${randRecord.get("website")}. These are the categories you can send to discover startups working towards: energy, transportation, water, food+agriculture.`);
+      randRecord = randArr[Math.floor(randNum)];
+      twiml.message(`A random ${category} org. is ${randRecord.get("org")}. \n\n${randRecord.get("overview")} More at ${randRecord.get("website")}. \n\nThese are the categories you can text📲 to discover non-profits about: energy⚡️, transportation🚴🏻‍♀️, water💧, food+agriculture🐷.`);
       callback(null, twiml);
     }
     twiml.message(`Send one of these categories : energy, environment, climate, transportation, water, food+agriculture.`);
